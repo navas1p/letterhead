@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MITE Technology | Login</title>
+    <style>
+        :root {
+            --bg: #f5f2f6;
+            --accent: #b0187a;
+            --accent-dark: #7d0f55;
+            --text: #1a1a1a;
+            --card: #ffffff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(900px 600px at 10% -10%, #f0dbea 0%, transparent 55%),
+                radial-gradient(900px 600px at 110% 10%, #e6c1da 0%, transparent 55%),
+                var(--bg);
+            color: var(--text);
+            font-family: "Trebuchet MS", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-card {
+            width: min(420px, 92vw);
+            background: var(--card);
+            border-radius: 18px;
+            padding: 28px 28px 26px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+            border: 1px solid rgba(176, 24, 122, 0.12);
+        }
+
+        .logo-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .logo-wrap img {
+            max-width: 220px;
+            height: auto;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            text-align: center;
+            font-size: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hint {
+            text-align: center;
+            font-size: 12px;
+            color: #5a5a5a;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 12px;
+            border: 1px solid #cfc2cb;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input[type="password"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(176, 24, 122, 0.15);
+        }
+
+        .actions {
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover { background: var(--accent-dark); }
+
+        .error {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 12px;
+            color: #b00020;
+            min-height: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo-wrap">
+            <img src="new logo.jpeg" alt="MITE Technology Logo">
+        </div>
+        <h1>Letterhead Access</h1>
+        <div class="hint">Enter the password to continue</div>
+        <form id="loginForm">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter password" required>
+            <div class="actions">
+                <button type="submit">Open</button>
+            </div>
+            <div class="error" id="errorMsg"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const passwordInput = document.getElementById('password');
+        const errorMsg = document.getElementById('errorMsg');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const value = passwordInput.value;
+
+            if (value === 'MiteL@123') {
+                window.location.href = 'letterhead.html';
+                return;
+            }
+
+            errorMsg.textContent = 'Incorrect password. Please try again.';
+            passwordInput.focus();
+            passwordInput.select();
+        });
+    </script>
+</body>
+</html>
