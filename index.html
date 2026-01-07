@@ -37,10 +37,10 @@
         }
 
         .login-card {
-            width: min(420px, 92vw);
+            width: min(460px, 92vw);
             background: #ffffff;
             border-radius: 18px;
-            padding: 28px 28px 26px;
+            padding: 32px 32px 28px;
             box-shadow: 0 16px 40px rgba(0,0,0,0.12);
             border: 1px solid rgba(176, 24, 122, 0.12);
         }
@@ -52,12 +52,12 @@
         }
 
         .login-logo img {
-            max-width: 220px;
+            max-width: 240px;
             height: auto;
         }
 
         .login-title {
-            margin: 0 0 12px;
+            margin: 0 0 10px;
             text-align: center;
             font-size: 20px;
             letter-spacing: 1px;
@@ -68,7 +68,12 @@
             text-align: center;
             font-size: 12px;
             color: #5a5a5a;
-            margin-bottom: 18px;
+            margin-bottom: 22px;
+        }
+
+        .login-form {
+            display: grid;
+            gap: 12px;
         }
 
         .login-label {
@@ -76,6 +81,11 @@
             margin-bottom: 6px;
             font-weight: bold;
             font-size: 13px;
+        }
+
+        .login-field {
+            display: grid;
+            gap: 6px;
         }
 
         .login-input {
@@ -93,7 +103,7 @@
         }
 
         .login-actions {
-            margin-top: 16px;
+            margin-top: 8px;
             display: flex;
             justify-content: center;
         }
@@ -118,6 +128,21 @@
             font-size: 12px;
             color: #b00020;
             min-height: 16px;
+        }
+
+        @media (max-width: 520px) {
+            .login-card {
+                padding: 24px 22px 22px;
+                border-radius: 14px;
+            }
+
+            .login-logo img {
+                max-width: 200px;
+            }
+
+            .login-button {
+                width: 100%;
+            }
         }
 
         /* -------------------------------------------------- */
@@ -337,9 +362,11 @@
             </div>
             <h1 class="login-title">Letterhead Access</h1>
             <div class="login-hint">Enter the password to continue</div>
-            <form id="loginForm">
-                <label class="login-label" for="loginPassword">Password</label>
-                <input class="login-input" type="password" id="loginPassword" name="loginPassword" placeholder="Enter password" required>
+            <form id="loginForm" class="login-form">
+                <div class="login-field">
+                    <label class="login-label" for="loginPassword">Password</label>
+                    <input class="login-input" type="password" id="loginPassword" name="loginPassword" placeholder="Enter password" required>
+                </div>
                 <div class="login-actions">
                     <button class="login-button" type="submit">Open</button>
                 </div>
@@ -431,7 +458,7 @@
             // Total used: 40 + 30 + 21 + 15 = 106mm
             // Available: 297 - 106 = 191mm ≈ 722px
             
-            return 722; // Available pixels for content
+            return 820; // Available pixels for content
         }
 
         // 5. Split content into pages based on available space
@@ -445,7 +472,7 @@
                 position: absolute;
                 left: -9999px;
                 top: -9999px;
-                width: 575px; /* A4 width minus padding (210mm ≈ 794px, 794 - 100 - 119) */
+                width: 694px; /* A4 width minus padding (210mm ≈ 794px, 794 - 100 - 119) */
                 font-size: ${currentFontSize}pt;
                 line-height: 1.6;
                 text-align: justify;
@@ -637,3 +664,4 @@
 
 </body>
 </html>
+
