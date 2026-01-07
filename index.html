@@ -1,55 +1,62 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MITE Technology | Login</title>
+    <title>MITE Technology Letterhead Generator</title>
     <style>
-        :root {
-            --bg: #f5f2f6;
-            --accent: #b0187a;
-            --accent-dark: #7d0f55;
-            --text: #1a1a1a;
-            --card: #ffffff;
+        /* General Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        * { box-sizing: border-box; }
+        /* -------------------------------------------------- */
+        /* LOGIN OVERLAY                                      */
+        /* -------------------------------------------------- */
+        .locked {
+            overflow: hidden;
+        }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
+        .login-overlay {
+            position: fixed;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             background:
                 radial-gradient(900px 600px at 10% -10%, #f0dbea 0%, transparent 55%),
                 radial-gradient(900px 600px at 110% 10%, #e6c1da 0%, transparent 55%),
-                var(--bg);
-            color: var(--text);
-            font-family: "Trebuchet MS", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                rgba(245, 242, 246, 0.98);
+            z-index: 9999;
         }
 
         .login-card {
             width: min(420px, 92vw);
-            background: var(--card);
+            background: #ffffff;
             border-radius: 18px;
             padding: 28px 28px 26px;
             box-shadow: 0 16px 40px rgba(0,0,0,0.12);
             border: 1px solid rgba(176, 24, 122, 0.12);
         }
 
-        .logo-wrap {
+        .login-logo {
             display: flex;
             justify-content: center;
             margin-bottom: 18px;
         }
 
-        .logo-wrap img {
+        .login-logo img {
             max-width: 220px;
             height: auto;
         }
 
-        h1 {
+        .login-title {
             margin: 0 0 12px;
             text-align: center;
             font-size: 20px;
@@ -57,21 +64,21 @@
             text-transform: uppercase;
         }
 
-        .hint {
+        .login-hint {
             text-align: center;
             font-size: 12px;
             color: #5a5a5a;
             margin-bottom: 18px;
         }
 
-        label {
+        .login-label {
             display: block;
             margin-bottom: 6px;
             font-weight: bold;
             font-size: 13px;
         }
 
-        input[type="password"] {
+        .login-input {
             width: 100%;
             padding: 12px 12px;
             border: 1px solid #cfc2cb;
@@ -80,19 +87,19 @@
             outline: none;
         }
 
-        input[type="password"]:focus {
-            border-color: var(--accent);
+        .login-input:focus {
+            border-color: #b0187a;
             box-shadow: 0 0 0 3px rgba(176, 24, 122, 0.15);
         }
 
-        .actions {
+        .login-actions {
             margin-top: 16px;
             display: flex;
             justify-content: center;
         }
 
-        button {
-            background: var(--accent);
+        .login-button {
+            background: #b0187a;
             color: #fff;
             border: none;
             padding: 12px 28px;
@@ -103,52 +110,530 @@
             transition: background 0.2s ease;
         }
 
-        button:hover { background: var(--accent-dark); }
+        .login-button:hover { background: #7d0f55; }
 
-        .error {
+        .login-error {
             margin-top: 12px;
             text-align: center;
             font-size: 12px;
             color: #b00020;
             min-height: 16px;
         }
+
+        /* -------------------------------------------------- */
+        /* INPUT & TOOLBAR SECTION (Hidden when printing)     */
+        /* -------------------------------------------------- */
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .controls h2 { margin-top: 0; color: #333; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="date"] {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;
+        }
+
+        /* New Formatting Toolbar */
+        .toolbar {
+            background: #eee;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .tool-btn {
+            background: white; border: 1px solid #ccc; padding: 5px 10px;
+            cursor: pointer; font-weight: bold; min-width: 30px;
+        }
+        .tool-btn:hover { background: #ddd; }
+
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .font-size-btn {
+            background: white; border: 1px solid #ccc; padding: 5px 10px;
+            cursor: pointer; min-width: 30px;
+        }
+
+        .font-size-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* The Editable Box */
+        #editor {
+            border: 1px solid #ccc;
+            border-radius: 0 0 4px 4px;
+            min-height: 150px;
+            padding: 10px;
+            background: white;
+            overflow-y: auto;
+            font-size: 12pt;
+            line-height: 1.6;
+        }
+
+        /* Generate Button */
+        .gen-btn {
+            background-color: #800080; color: white;
+            padding: 12px 24px; border: none; border-radius: 4px;
+            cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 15px;
+        }
+        .gen-btn:hover { background-color: #660066; }
+
+        /* -------------------------------------------------- */
+        /* A4 PREVIEW SECTION                                 */
+        /* -------------------------------------------------- */
+        .pages-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .page-container {
+            background: white;
+            width: 210mm;
+            height: 297mm;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            page-break-after: always;
+        }
+
+        .header-img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+        }
+        .footer-wrapper {
+            position: relative;
+            width: 100%;
+            margin-top: auto;
+        }
+        .footer-img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            max-height: 100px;
+            object-fit: contain;
+            z-index: 4;
+        }
+
+        .content-area {
+            padding: 20px 50px;
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .letter-date {
+            text-align: right; 
+            margin-bottom: 20px; 
+            font-weight: bold; 
+            font-size: 14pt;
+        }
+
+        .letter-body {
+            font-size: 12pt;
+            line-height: 1.6;
+            color: #000;
+            text-align: justify;
+            height: calc(100% - 40px);
+            overflow: hidden;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            opacity: 0.10;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 12px; /* place inside the footer stripe */
+            right: 40px;  /* align within the pink box area */
+            font-size: 9pt;
+            color: #1f1c1c; /* simple high-contrast color */
+            z-index: 6;
+            text-align: right;
+            padding: 0;
+            font-weight: 400; /* normal weight */
+            letter-spacing: normal;
+            background: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* simple font */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* -------------------------------------------------- */
+        /* PRINT SETTINGS                                     */
+        /* -------------------------------------------------- */
+        @media print {
+            body { 
+                background: none; 
+                margin: 0; 
+                padding: 0; 
+            }
+            .controls { 
+                display: none; 
+            }
+            .pages-container {
+                display: block;
+                width: 100%;
+            }
+            .page-container {
+                width: 210mm; 
+                height: 297mm; 
+                box-shadow: none; 
+                margin: 0;
+                page-break-after: always;
+            }
+            .watermark { 
+                position: fixed; 
+                top: 50%; 
+                left: 50%; 
+            }
+            * { 
+                -webkit-print-color-adjust: exact !important; 
+                print-color-adjust: exact !important; 
+            }
+            @page { 
+                size: A4; 
+                margin: 0; 
+            }
+        }
     </style>
 </head>
-<body>
-    <div class="login-card">
-        <div class="logo-wrap">
-            <img src="new logo.jpeg" alt="MITE Technology Logo">
-        </div>
-        <h1>Letterhead Access</h1>
-        <div class="hint">Enter the password to continue</div>
-        <form id="loginForm">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter password" required>
-            <div class="actions">
-                <button type="submit">Open</button>
+<body class="locked">
+
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="new logo.jpeg" alt="MITE Technology Logo">
             </div>
-            <div class="error" id="errorMsg"></div>
-        </form>
+            <h1 class="login-title">Letterhead Access</h1>
+            <div class="login-hint">Enter the password to continue</div>
+            <form id="loginForm">
+                <label class="login-label" for="loginPassword">Password</label>
+                <input class="login-input" type="password" id="loginPassword" name="loginPassword" placeholder="Enter password" required>
+                <div class="login-actions">
+                    <button class="login-button" type="submit">Open</button>
+                </div>
+                <div class="login-error" id="loginError"></div>
+            </form>
+        </div>
+    </div>
+
+    <div class="controls">
+        <h2>Letterhead Designer</h2>
+        
+        <div class="form-group">
+            <label>Select Date:</label>
+            <input type="date" id="dateInput">
+        </div>
+
+        <div class="form-group">
+            <label>Letter Content:</label>
+            
+            <div class="toolbar">
+                <button type="button" class="tool-btn" onclick="formatDoc('bold')" title="Bold">B</button>
+                <button type="button" class="tool-btn" onclick="formatDoc('italic')" title="Italic"><i>I</i></button>
+                <button type="button" class="tool-btn" onclick="formatDoc('underline')" title="Underline"><u>U</u></button>
+                
+                <span style="margin-left:10px; font-size:14px;">Text Color:</span>
+                <input type="color" id="colorPicker" onchange="formatDoc('foreColor', this.value)" value="#000000">
+                
+                <span style="margin-left:10px; font-size:14px;">Font Size:</span>
+                <div class="font-size-control">
+                    <button type="button" class="font-size-btn" onclick="changeFontSize(-1)" title="Decrease Font Size">-</button>
+                    <span class="font-size-value" id="fontSizeValue">12</span>
+                    <button type="button" class="font-size-btn" onclick="changeFontSize(1)" title="Increase Font Size">+</button>
+                </div>
+            </div>
+
+            <div id="editor" contenteditable="true" oninput="updatePreview()">
+                Type your letter here...
+            </div>
+        </div>
+
+        <button class="gen-btn" onclick="generateAndPrint()">Generate & Print / Save PDF</button>
+    </div>
+
+    <div class="pages-container" id="pagesContainer">
+        <!-- Pages will be dynamically generated here -->
     </div>
 
     <script>
-        const form = document.getElementById('loginForm');
-        const passwordInput = document.getElementById('password');
-        const errorMsg = document.getElementById('errorMsg');
+        // Global variables
+        let currentFontSize = 12; // Default font size in points
+        let pageContentHeight = 0; // Calculated content height
 
-        form.addEventListener('submit', (event) => {
+        // 1. Set Default Date
+        document.getElementById('dateInput').valueAsDate = new Date();
+        updateDate();
+
+        // 2. Formatting Function (Bold, Italic, Color, Font Size)
+        function formatDoc(cmd, value = null) {
+            if (cmd === 'fontSize') {
+                document.execCommand('fontSize', false, value);
+            } else {
+                document.execCommand(cmd, false, value);
+            }
+            document.getElementById('editor').focus();
+            updatePreview();
+        }
+
+        // 3. Font Size Control
+        function changeFontSize(change) {
+            currentFontSize += change;
+            if (currentFontSize < 8) currentFontSize = 8;
+            if (currentFontSize > 72) currentFontSize = 72;
+            
+            document.getElementById('fontSizeValue').textContent = currentFontSize;
+            
+            // Apply font size to editor
+            document.getElementById('editor').style.fontSize = currentFontSize + 'pt';
+            
+            updatePreview();
+        }
+
+        // 4. Calculate available height for content
+        function calculateAvailableHeight() {
+            // A4 page is 297mm
+            // Header: ~40mm (120px / 3.78px per mm)
+            // Footer: ~30mm (100px / 3.78px per mm)
+            // Padding: 40px top + bottom = ~21mm
+            // Date section: ~15mm
+            // Total used: 40 + 30 + 21 + 15 = 106mm
+            // Available: 297 - 106 = 191mm ≈ 722px
+            
+            return 722; // Available pixels for content
+        }
+
+        // 5. Split content into pages based on available space
+        function splitContentIntoPages(content) {
+            const pages = [];
+            const availableHeight = calculateAvailableHeight();
+            
+            // Create a temporary div to measure content
+            const tempDiv = document.createElement('div');
+            tempDiv.style.cssText = `
+                position: absolute;
+                left: -9999px;
+                top: -9999px;
+                width: 575px; /* A4 width minus padding (210mm ≈ 794px, 794 - 100 - 119) */
+                font-size: ${currentFontSize}pt;
+                line-height: 1.6;
+                text-align: justify;
+            `;
+            
+            // Set the content
+            tempDiv.innerHTML = content;
+            document.body.appendChild(tempDiv);
+            
+            // Get total height
+            const totalHeight = tempDiv.offsetHeight;
+            
+            // Remove temp div
+            document.body.removeChild(tempDiv);
+            
+            if (totalHeight <= availableHeight) {
+                // Single page
+                pages.push(content);
+            } else {
+                // Multiple pages needed - use smarter splitting
+                const lines = getContentLines(content);
+                let currentPageContent = '';
+                let currentHeight = 0;
+                
+                // Create a measuring element
+                const measureDiv = document.createElement('div');
+                measureDiv.style.cssText = tempDiv.style.cssText;
+                document.body.appendChild(measureDiv);
+                
+                for (let i = 0; i < lines.length; i++) {
+                    measureDiv.innerHTML = currentPageContent + lines[i];
+                    const newHeight = measureDiv.offsetHeight;
+                    
+                    if (newHeight <= availableHeight) {
+                        currentPageContent += lines[i];
+                        currentHeight = newHeight;
+                    } else {
+                        // Start new page
+                        if (currentPageContent.trim()) {
+                            pages.push(currentPageContent);
+                        }
+                        currentPageContent = lines[i];
+                        measureDiv.innerHTML = lines[i];
+                        currentHeight = measureDiv.offsetHeight;
+                    }
+                }
+                
+                // Add the last page
+                if (currentPageContent.trim()) {
+                    pages.push(currentPageContent);
+                }
+                
+                document.body.removeChild(measureDiv);
+            }
+            
+            return pages;
+        }
+
+        // 6. Helper function to split content into logical lines
+        function getContentLines(content) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            
+            // Convert content to lines (paragraphs, divs, etc.)
+            const lines = [];
+            const elements = tempDiv.children.length > 0 ? tempDiv.children : [tempDiv];
+            
+            for (let element of elements) {
+                // Clone element to preserve HTML
+                const clone = element.cloneNode(true);
+                lines.push(clone.outerHTML);
+            }
+            
+            return lines;
+        }
+
+        // 7. Create page element
+        function createPageElement(content, pageNum, totalPages) {
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'page-container';
+            
+            // Calculate if this is the last page to adjust footer spacing
+            const isLastPage = pageNum === totalPages;
+            
+            pageDiv.innerHTML = `
+                <img src="Header@4x.jpg" alt="Header Image" class="header-img">
+                <img src="new logo.jpeg" alt="Watermark" class="watermark">
+                <div class="content-area">
+                    <div class="letter-date" id="displayDate"></div>
+                    <div class="letter-body">${content}</div>
+                </div>
+                <div class="footer-wrapper">
+                    <img src="Footer@4x.png" alt="Footer Image" class="footer-img">
+                    <div class="page-number">Page ${pageNum} of ${totalPages}</div>
+                </div>
+            `;
+            
+            return pageDiv;
+        }
+
+        // 8. Update preview with pagination
+        function updatePreview() {
+            const content = document.getElementById('editor').innerHTML;
+            const pagesContainer = document.getElementById('pagesContainer');
+            pagesContainer.innerHTML = '';
+            
+            // Split content into pages
+            const pages = splitContentIntoPages(content);
+            
+            // Create page elements
+            pages.forEach((pageContent, index) => {
+                const page = createPageElement(pageContent, index + 1, pages.length);
+                pagesContainer.appendChild(page);
+            });
+            
+            // Update dates on all pages
+            updateDate();
+        }
+
+        // 9. Update Date on all pages
+        function updateDate() {
+            const dateVal = document.getElementById('dateInput').value;
+            if(dateVal) {
+                const dateObj = new Date(dateVal);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = dateObj.toLocaleDateString('en-US', options);
+                
+                // Update date in all pages
+                const dateElements = document.querySelectorAll('.letter-date');
+                dateElements.forEach(el => {
+                    el.textContent = formattedDate;
+                });
+            }
+        }
+
+        // 10. Print Function
+        function generateAndPrint() {
+            updatePreview(); // Ensure latest changes are synced
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        }
+
+        // 11. Login Overlay
+        const loginOverlay = document.getElementById('loginOverlay');
+        const loginForm = document.getElementById('loginForm');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginError = document.getElementById('loginError');
+
+        loginForm.addEventListener('submit', (event) => {
             event.preventDefault();
-            const value = passwordInput.value;
-
-            if (value === 'MiteL@123') {
-                window.location.href = 'letterhead.html';
+            if (loginPassword.value === 'MiteL@123') {
+                loginOverlay.style.display = 'none';
+                document.body.classList.remove('locked');
                 return;
             }
-
-            errorMsg.textContent = 'Incorrect password. Please try again.';
-            passwordInput.focus();
-            passwordInput.select();
+            loginError.textContent = 'Incorrect password. Please try again.';
+            loginPassword.focus();
+            loginPassword.select();
         });
+
+        // 12. Initialize
+        updatePreview();
+        
+        // Listen for date changes
+        document.getElementById('dateInput').addEventListener('input', updateDate);
+
+        // Sample content for testing (you can remove this)
+        function addSampleContent() {
+            const sampleText = `
+                <p>Dear Sir/Madam,</p>
+                <p>This is a test letter to demonstrate the automatic pagination feature of the MITE Technology Letterhead Generator. The system will automatically split content into multiple A4 pages when the content exceeds the available space on a single page.</p>
+                <p>This paragraph continues to add more content. As we keep adding text, the system should automatically create new pages to accommodate all the content while maintaining the professional letterhead design on each page.</p>
+                <p>Each page will include the MITE Technology header, watermark, and footer. The page numbers will be displayed at the bottom right corner of each page. This ensures that multi-page documents are properly organized and professional in appearance.</p>
+                <p>You can use the formatting tools to make text <strong>bold</strong>, <em>italic</em>, or <u>underlined</u>. You can also change the text color and font size using the controls above the editor.</p>
+                <p>The system calculates the available space on each A4 page and intelligently splits content to avoid awkward page breaks in the middle of paragraphs whenever possible.</p>
+                <p>This feature is particularly useful for longer documents such as reports, proposals, or detailed letters that require multiple pages while maintaining consistent branding throughout the document.</p>
+                <p>Thank you for using the MITE Technology Letterhead Generator. We hope this tool makes your document preparation more efficient and professional.</p>
+                <p>Sincerely,<br>The MITE Technology Team</p>
+            `;
+            
+            document.getElementById('editor').innerHTML = sampleText;
+            updatePreview();
+        }
+
+        // Uncomment the line below to load sample content for testing
+        // setTimeout(addSampleContent, 500);
     </script>
+
 </body>
 </html>
